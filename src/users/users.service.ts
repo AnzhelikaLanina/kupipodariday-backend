@@ -18,6 +18,18 @@ export class UsersService {
   ) {}
 
   async create(userInfo: CreateUserDto) {
+    const user = await this.userRepository.findOne({
+      where: [
+        { username: userInfo.username },
+        { email: userInfo.email },
+      ],
+    });
+    if (user) {
+      throw new ConflictException(
+        'Пользователь с таким email или username уже зарегистрирован',
+      );
+    }
+
     const hash = await bcrypt.hash(userInfo.password, 10);
     const { id, username, about, avatar, email, createdAt, updatedAt } =
       await this.userRepository.save({ ...userInfo, password: hash });
@@ -38,7 +50,7 @@ export class UsersService {
       });
       if (user) {
         throw new ConflictException(
-          'Пользователь с такими данными уже существует',
+          'Пользователь с такими данными уже существует'
         );
       }
     }
