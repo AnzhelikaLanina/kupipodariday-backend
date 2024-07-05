@@ -26,7 +26,7 @@ export class UsersService {
     });
     if (user) {
       throw new ConflictException(
-        'Пользователь с таким email или username уже зарегистрирован',
+        'Пользователь с таким email или username уже зарегистрирован'
       );
     }
 
