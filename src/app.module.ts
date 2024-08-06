@@ -15,18 +15,9 @@ import { Wish } from './wishes/entities/wish.entity';
 import { Wishlist } from './wishlists/entities/wishlist.entity';
 import { AuthModule } from './auth/auth.module';
 
-const {
-  POSTGRES_HOST,
-  POSTGRES_PORT,
-  POSTGRES_DB,
-  POSTGRES_USER,
-  POSTGRES_PASSWORD,
-  POSTGRES_SYNCHRONIZE,
-} = process.env;
-
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: '../../.env', isGlobal: true }),
+    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     ThrottlerModule.forRoot([
       {
         ttl: 60,
@@ -35,13 +26,13 @@ const {
     ]),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: POSTGRES_HOST,
-      port: Number(POSTGRES_PORT),
-      username: POSTGRES_USER,
-      password: String(POSTGRES_PASSWORD),
-      database: POSTGRES_DB,
+      host: process.env.DATABASE_HOST,
+      port: Number(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       entities: [Offer, User, Wish, Wishlist],
-      synchronize: Boolean(POSTGRES_SYNCHRONIZE),
+      synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
     }),
     WinstonModule.forRoot({
       levels: {

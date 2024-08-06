@@ -10,7 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: '../../.env' }),
+    ConfigModule.forRoot({ envFilePath: '.env' }),
     UsersModule,
     PassportModule,
     JwtModule.register({
